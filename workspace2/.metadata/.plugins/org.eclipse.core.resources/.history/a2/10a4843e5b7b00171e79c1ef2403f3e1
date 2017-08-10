@@ -1,0 +1,8 @@
+package www.vikas.dao;
+
+import www.vikas.model.Customer;
+
+public interface CustomerDaoInt {
+	public String addCustomer(Customer cust);
+	public Customer getCustomerByUserId(String uid);
+}

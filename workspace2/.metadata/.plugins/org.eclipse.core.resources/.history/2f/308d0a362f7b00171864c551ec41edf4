@@ -1,0 +1,5 @@
+package www.vikas.dao;
+
+public interface CustomerDaoInt {
+
+}

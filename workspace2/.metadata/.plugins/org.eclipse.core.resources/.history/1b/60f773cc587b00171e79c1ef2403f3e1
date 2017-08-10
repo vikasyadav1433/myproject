@@ -1,0 +1,9 @@
+package com.kallakal.dao;
+
+import com.kallakal.model.UserDetails;
+
+public interface UserDetailsDAOInt {
+	public String addUser(UserDetails ud);
+	public UserDetails loginCheck(UserDetails ud);
+}
+

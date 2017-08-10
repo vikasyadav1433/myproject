@@ -1,0 +1,40 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="xyz"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head><%@include file="links.jsp"%>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body><%@include file="navbar.jsp"%>
+	<div class="col-sm-6"
+		style="background-color: #200cd3; border-radius: 30px; padding-bottom: 15px; padding-top: 5px;">
+		<div align="center" style="font-size: 30px; color: #e20909">
+			<b>SignUp Form</b>
+		</div>
+
+		<xyz:form commandName="customer" action="reqSendSingnUpData"
+			enctype="mltipart/form-data">
+			<div class="form-group">
+				<b> Enter Customer Name</b><br>
+				<xyz:input class="form-control" placeholder="Enter Customer Name"
+					path="customername"/>
+			</div>
+			<div class="form-grorp">
+				<b>Enter Customer E-mail ID</b><br>
+				<xyz:input class="form-control"
+					placeholder="Enter Customer E-mail ID" path="mailid" />
+			</div>
+			<div class="form-group">
+				<b>Enter Customer Mobile No.</b><br>
+				<xyz:input class="form-control"
+					placeholder="Enter Cutomer Mobile No." path="mobileno" />
+			</div>
+
+		</xyz:form>
+
+	</div>
+
+</body>
+</html>

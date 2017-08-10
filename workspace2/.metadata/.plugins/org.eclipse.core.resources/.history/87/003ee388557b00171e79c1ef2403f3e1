@@ -1,0 +1,72 @@
+package com.kallakal.controller;
+
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.kallakal.model.Product;
+import com.kallakal.service.ProductServiceInt;
+
+@Controller
+public class ProductController {
+	@Autowired
+	private ProductServiceInt productService;
+	
+	@RequestMapping("/reqProductForm")
+	public String displayProductForm(Model m,HttpSession hsession){
+		m.addAttribute("productObject", new Product());
+		return "addProductForm";
+	}
+	
+	@RequestMapping("/reqSendProductData")
+	public String addProduct(@ModelAttribute("productObject")Product prd,HttpSession hsession,Model m){
+		prd.setIsproductavailable(true);
+		productService.addProduct(prd);
+		String productmessage = "Product added successfully...";
+		m.addAttribute("productmessage", productmessage);
+		List<Product> allproducts = productService.getAllProducts();	
+		m.addAttribute("allproducts", allproducts);
+		return "displayProdcutsAdmin";	
+	}
+	
+	@RequestMapping("/reqDisplayProdcutsAdmin")
+	public String displayProductsAdmin(HttpSession hsession,Model m){
+		List<Product> allproducts = productService.getAllProducts();	
+		m.addAttribute("allproducts", allproducts);
+		return "displayProdcutsAdmin";
+	}
+	
+	@RequestMapping("/reqDeleteProductAdmin")
+	public String deleteProductAdmin(@RequestParam("pid")String pid,HttpSession hsession,Model m){
+		productService.deleteProduct(pid);
+		String productmessage="Product deleted successfully....";
+		m.addAttribute("productmessage", productmessage);
+		List<Product> allproducts = productService.getAllProducts();	
+		m.addAttribute("allproducts", allproducts);
+		return "displayProdcutsAdmin";
+	}
+	
+	@RequestMapping("/reqEditProductPageAdmin")
+	public String editProductPageAdmin(@RequestParam("pid")String pid,HttpSession hsession,Model m){		
+		Product prd = productService.getProductById(pid);
+		m.addAttribute("product",prd);
+		return "productEditAdmin";
+	}
+	
+	@RequestMapping("/reqSendUpdatedProductToDB")
+	public String updateProductToDB(@ModelAttribute("productObject")Product prd,HttpSession hsession,Model m){
+		productService.updateProduct(prd);
+		String productmessage="Product edited successfully....";
+		m.addAttribute("productmessage", productmessage);
+		List<Product> allproducts = productService.getAllProducts();	
+		m.addAttribute("allproducts", allproducts);
+		return "displayProdcutsAdmin";
+	}
+}

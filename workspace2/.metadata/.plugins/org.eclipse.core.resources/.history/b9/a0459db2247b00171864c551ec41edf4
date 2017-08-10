@@ -1,0 +1,9 @@
+<html>
+<head><%@include file="links.jsp" %>
+</head>
+
+<body>
+<%@include file="navbarBeforelogin.jsp" %>
+<h2>Hello World!</h2>
+</body>
+</html>

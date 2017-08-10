@@ -1,0 +1,45 @@
+package www.vikas.model;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+public class Customer {
+
+	@Id
+	private String customerid;
+	private String customername;
+	private String mailid;
+	private String mobileno;
+	private String enabled;
+	public String getCustomerid() {
+		return customerid;
+	}
+	public void setCustomerid(String customerid) {
+		this.customerid = customerid;
+	}
+	public String getCustomername() {
+		return customername;
+	}
+	public void setCustomername(String customername) {
+		this.customername = customername;
+	}
+	public String getMailid() {
+		return mailid;
+	}
+	public void setMailid(String mailid) {
+		this.mailid = mailid;
+	}
+	public String getMobileno() {
+		return mobileno;
+	}
+	public void setMobileno(String mobileno) {
+		this.mobileno = mobileno;
+	}
+	public String getEnabled() {
+		return enabled;
+	}
+	public void setEnabled(String enabled) {
+		this.enabled = enabled;
+	}
+}

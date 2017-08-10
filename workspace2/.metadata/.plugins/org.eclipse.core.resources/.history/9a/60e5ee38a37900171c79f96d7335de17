@@ -1,0 +1,13 @@
+package www.vikas.model;
+
+public class Products {
+	private String productid;
+	private String productnaem;
+	private String productdesc;
+	private boolean isproductavailabel;
+	private float rating;
+	private int noitemssold;
+	private int noreviews;
+	
+
+}

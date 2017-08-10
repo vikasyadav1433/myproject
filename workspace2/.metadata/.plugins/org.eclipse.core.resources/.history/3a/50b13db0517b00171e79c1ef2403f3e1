@@ -1,0 +1,39 @@
+package www.vikas.dao;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import www.vikas.model.Customer;
+import www.vikas.model.UserDetails;
+
+@Repository
+public class CustomerDaoImp implements CustomerDaoInt {
+
+	@Autowired
+	private SessionFactory sessionFactory;
+	
+	public String addCustomer(Customer cust) {
+	Session ses = sessionFactory.openSession();
+	cust.setCustomerid(generateCustomerID());
+	cust.getUserDetails().setUserid(generateUserID());
+	cust.getShippingAddress().setShippingaddressid(generateShippingAddressID());
+	cust.getBillingAddress().setBillingAddressid(generateBillingAddressID());
+	cust.getCart().setCartid(generateCartID());
+	ses.save(cust);
+	ses.flush();
+	ses.close();
+	saveCustomerImage(cust);
+	return cust,getUserDetails().getUserid();
+	}
+
+	
+	public Customer getCustomerByUserId(String uid) {
+		Session ses = sessionFactory.openSession();
+		UserDeatails temp = ses.get(UserDetails.class, uid);
+		ses.close();
+		return temp.getCustomer();
+	}
+
+}

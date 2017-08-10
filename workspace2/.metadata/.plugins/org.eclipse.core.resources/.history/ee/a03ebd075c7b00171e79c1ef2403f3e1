@@ -1,0 +1,13 @@
+package www.vikas.model;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+public class MyModel {
+@Id
+ private String name;
+ private String age;
+ private String address;
+ 
+}

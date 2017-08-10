@@ -1,0 +1,19 @@
+package www.vikas.dao;
+
+import www.vikas.model.Customer;
+
+public class CustomerDaoImp implements CustomerDaoInt {
+
+	
+	public String addCustomer(Customer cust) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	public Customer getCustomerByUserId(String uid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

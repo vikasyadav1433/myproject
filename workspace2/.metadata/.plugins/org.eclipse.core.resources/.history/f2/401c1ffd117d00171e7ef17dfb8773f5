@@ -1,0 +1,13 @@
+package www.vikas.service;
+
+import java.util.List;
+
+import www.vikas.model.Customer;
+import www.vikas.model.Vw_Prod_Supp_Xps;
+
+public interface CustomerServiceInt {
+	public String addCustomer(Customer cust);
+	public Customer getCustomerByUserId(String uid);
+	public List<Vw_Prod_Supp_Xps> getProductsForUser();
+	public List<Vw_Prod_Supp_Xps> getAllSuppProd(String pid);
+}
