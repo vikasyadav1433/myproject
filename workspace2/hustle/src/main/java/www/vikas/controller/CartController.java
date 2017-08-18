@@ -40,8 +40,8 @@ public class CartController {
 	public String addItemToCart(@PathVariable("psid") String psid, @RequestParam("qty") int qty, HttpSession hsession,
 			Model m) {
 		System.out.println("psid : " + psid + "  qty : " + qty);
-		Customer cust = (Customer) hsession.getAttribute("customerprofile");
-		Cart cart = cust.getCart();
+		Customer customer = (Customer) hsession.getAttribute("customerprofile");
+		Cart cart = customer.getCart();
 		XMAP_Product_Supplier xps = xpsService.getXpsById(psid);
 		CartItem cartitem = new CartItem();
 		cartitem.setCart(cart);
@@ -51,7 +51,7 @@ public class CartController {
 
 		cartItemService.addCartItem(cartitem);
 
-		Customer customer1 = customerService.getCustomerByUserId(cust.getUserDetails().getUserid());
+		Customer customer1 = customerService.getCustomerByUserId(customer.getUserDetails().getUserid());
 		Cart cart1 = customer1.getCart();
 
 		List<CartItem> cartitems = cart1.getCartItems();
@@ -71,10 +71,10 @@ public class CartController {
 	@RequestMapping("/reqDisplayCart")
 	public String displayCart(HttpSession hsession, Model m) {
 
-		Customer cust = (Customer) hsession.getAttribute("customerprofile");
-		Customer cust1 = customerService.getCustomerByID(cust.getCustomerid());
-		Cart cart = cust1.getCart();
-		hsession.setAttribute("customerprofile", cust1);
+		Customer customer = (Customer) hsession.getAttribute("customerprofile");
+		Customer customer1 = customerService.getCustomerByID(customer.getCustomerid());
+		Cart cart = customer1.getCart();
+		hsession.setAttribute("customerprofile", customer1);
 
 		List<CartItem> cartitems = cart.getCartItems();
 		int sum = 0;
@@ -98,8 +98,8 @@ public class CartController {
 	@RequestMapping("/reqClearCart/{customerid}")
 	public String deleteAllCartItems(@PathVariable("customerid") String customerid, HttpSession hsession) {
 		cartItemService.removeAllCartItems(customerid);
-		Customer cust = (Customer) hsession.getAttribute("customerprofile");
-		hsession.setAttribute("customerprofile", customerService.getCustomerByID(cust.getCustomerid()));
+		Customer customer = (Customer) hsession.getAttribute("customerprofile");
+		hsession.setAttribute("customerprofile", customerService.getCustomerByID(customer.getCustomerid()));
 		return "redirect:/reqDisplayProductsUser";
 	}
 }

@@ -72,7 +72,7 @@
 				</div>
 
 	
-				Forgot Password?<a href=""> Click Here</a>
+				<a href=""> Forgot Password?</a>
 				<div align="right">
 					<xyz:button class="btn btn-primary">Login</xyz:button>
 				</div>

@@ -41,11 +41,21 @@ $(document).ready(function(){
 		<div class="col-sm-6">
 			<img src="resources/images/products/${allSupProd[0].productid}.jpg" height="400px" width="600px" />
 		</div>
-		<div class="col-sm-2"></div>
-		<div class="col-sm-4">
-			Name : ${allSupProd[0].productname}
+		<div class="col-sm-2">
+		<br><br><br>
+		<span class="badge" style="background-color:green;vertical-align: middle;">
+				<span class="glyphicon glyphicon-star"></span> 
+				${allSupProd[0].rating} 
+			</span></div>
+		<div class="col-sm-3" style="background-color:#9bf2e9; border-radius:15px;padding-bottom:10px;font-size:20px">
+		    
+			
 			<br>
-		Description : ${allSupProd[0].productdesc}
+			<br>Name : ${allSupProd[0].productname}
+			<br>Description : ${allSupProd[0].productdesc}
+			<br>No. of Items Sold : ${allSupProd[0].noitemssold}
+			<br>No. of Reviews : ${allSupProd[0].noreviews}
+			<br><br><br>
 		</div>
 	</div>
 	<div class="container">
@@ -99,7 +109,20 @@ $(document).ready(function(){
 	</table>
 	</div>
 
-	<br>
+<div class="container">
+
+<c:forEach items="${revdata}" var="review">
+
+<div class="col-sm-12" style="color:pink">
+	<c:url value="/resources/images/customers/${review.customerid}.jpg" var="url"></c:url>
+	<img src="${url}" class="img-circle padding-right:20px" height="50" width="60"/> ${review.customername}
+	<br><span class="badge" style="background-color:green"><span class="glyphicon glyphicon-star"></span> ${review.rating} </span>
+	<br>Comments : ${review.comments}	
+</div>
+
+</c:forEach>
+</div>
+
 
 </body>
 </html>

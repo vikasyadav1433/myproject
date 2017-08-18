@@ -26,9 +26,9 @@ public class ProductController {
 	}
 
 	@RequestMapping("/reqSendProductData")
-	public String addProduct(@ModelAttribute("productObject") Product prd, HttpSession hsession, Model m) {
-		prd.setIsproductavailable(true);
-		productService.addProduct(prd);
+	public String addProduct(@ModelAttribute("productObject") Product product, HttpSession hsession, Model m) {
+		product.setIsproductavailable(true);
+		productService.addProduct(product);
 		String productmessage = "Product added successfully...";
 		m.addAttribute("productmessage", productmessage);
 		List<Product> allproducts = productService.getAllProducts();
@@ -44,8 +44,8 @@ public class ProductController {
 	}
 
 	@RequestMapping("/reqDeleteProductAdmin")
-	public String deleteProductAdmin(@RequestParam("pid") String pid, HttpSession hsession, Model m) {
-		productService.deleteProduct(pid);
+	public String deleteProductAdmin(@RequestParam("pid") String productid, HttpSession hsession, Model m) {
+		productService.deleteProduct(productid);
 		String productmessage = "Product deleted successfully....";
 		m.addAttribute("productmessage", productmessage);
 		List<Product> allproducts = productService.getAllProducts();
@@ -54,15 +54,15 @@ public class ProductController {
 	}
 
 	@RequestMapping("/reqEditProductPageAdmin")
-	public String editProductPageAdmin(@RequestParam("pid") String pid, HttpSession hsession, Model m) {
-		Product prd = productService.getProductById(pid);
-		m.addAttribute("product", prd);
+	public String editProductPageAdmin(@RequestParam("pid") String productid, HttpSession hsession, Model m) {
+		Product product = productService.getProductById(productid);
+		m.addAttribute("product", product);
 		return "productEditAdmin";
 	}
 
 	@RequestMapping("/reqSendUpdatedProductToDB")
-	public String updateProductToDB(@ModelAttribute("productObject") Product prd, HttpSession hsession, Model m) {
-		productService.updateProduct(prd);
+	public String updateProductToDB(@ModelAttribute("productObject") Product product, HttpSession hsession, Model m) {
+		productService.updateProduct(product);
 		String productmessage = "Product edited successfully....";
 		m.addAttribute("productmessage", productmessage);
 		List<Product> allproducts = productService.getAllProducts();

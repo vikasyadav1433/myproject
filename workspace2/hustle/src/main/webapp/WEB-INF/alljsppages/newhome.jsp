@@ -18,6 +18,7 @@
 	=0.4;
 }
 </style>
+
 <style type="text/css">
 .zoomin img {
 	height: 200px;
@@ -41,33 +42,6 @@
 	background-repeat: no-repeat;
 	margin-left: auto;
 	margin-right: auto;
-}
-
-#samples {
-	text-align: center;
-}
-
-#samples img {
-	margin: 10px;
-	display: block;
-	border: 2px solid #6A6462;
-}
-
-#samples img:hover {
-	cursor: zoom-in;
-	border: 0;
-	-moz-box-shadow: 2px 2px 7px 2px rgba(130, 130, 130, 1), -1px -1px 7px
-		2px rgba(130, 130, 130, 1);
-	-webkit-box-shadow: 2px 2px 7px 2px rgba(130, 130, 130, .7), -1px -1px
-		7px 2px rgba(130, 130, 130, 1);
-	box-shadow: 2px 2px 7px 2px rgba(130, 130, 130, .7), -2px -2px 7px 2px
-		rgba(130, 130, 130, 1);
-}
-
-@media screen and (max-width: 767px) {
-	#samples img {
-		display: inline-block;
-	}
 }
 </style>
 </head>
@@ -156,20 +130,6 @@
 			</div>
 		</div>
 	</div>
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="samples">
-				<img id="zoom1" width="100px" height="250px"
-					onmousemove="zoomIn(event)" onmouseout="zoomOut()"
-					src="resources/images/carsousel/cr1.jpg"> <img id="zoom2"
-					width="100px" height="250px" onmousemove="zoomIn(event)"
-					onmouseout="zoomOut()" src="resources/images/carsousel/cr2.jpg">
-			</div>
-			<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-				<div id="preview" onmousemove="zoomIn(event)"></div>
-			</div>
-		</div>
-	</div>
-<!-- hdksafhghliasdhfgal -->
+
 </body>
 </html>

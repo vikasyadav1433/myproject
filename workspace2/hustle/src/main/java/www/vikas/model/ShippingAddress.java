@@ -1,11 +1,13 @@
 package www.vikas.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
-public class ShippingAddress {
+public class ShippingAddress implements Serializable{
 	@Id
 	private String shippingaddressid;
 	private String houseno;

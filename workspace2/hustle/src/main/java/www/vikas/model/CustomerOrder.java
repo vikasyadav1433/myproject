@@ -1,5 +1,6 @@
 package www.vikas.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -21,6 +22,10 @@ public class CustomerOrder {
 
 	@OneToMany(mappedBy="customerOrder", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<CustomerOrderHistory> customerOrdersHistory;
+	
+	private String shippingAddress;
+	
+	private Date orderDate;
 
 	public String getOrderId() {
 		return orderId;
@@ -45,5 +50,23 @@ public class CustomerOrder {
 	public void setCustomerOrdersHistory(List<CustomerOrderHistory> customerOrdersHistory) {
 		this.customerOrdersHistory = customerOrdersHistory;
 	}
+
+	public Date getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
+	}
+
+	public String getShippingAddress() {
+		return shippingAddress;
+	}
+
+	public void setShippingAddress(String shippingAddress) {
+		this.shippingAddress = shippingAddress;
+	}
+	
+	
 	
 }

@@ -39,10 +39,10 @@ public class XpsController {
 
 	@RequestMapping("/reqAddProdSuppForm")
 	public String addSupplierForm(Model m, HttpSession hsession) {
-		List<Product> prdata = productService.getAllProducts();
-		List<Supplier> supdata = supplierService.getAllSuppliers();
-		m.addAttribute("products", prdata);
-		m.addAttribute("suppliers", supdata);
+		List<Product> productdata = productService.getAllProducts();
+		List<Supplier> supplierdata = supplierService.getAllSuppliers();
+		m.addAttribute("products", productdata);
+		m.addAttribute("suppliers", supplierdata);
 		m.addAttribute("prodsuppObject", new XMAP_Product_Supplier());
 		return "addProdSupp";
 	}

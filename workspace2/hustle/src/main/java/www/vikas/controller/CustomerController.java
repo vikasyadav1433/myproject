@@ -17,7 +17,9 @@ import www.vikas.model.Customer;
 import www.vikas.model.CustomerOrder;
 import www.vikas.model.ShippingAddress;
 import www.vikas.model.UserDetails;
+import www.vikas.model.Vw_Cust_Rating;
 import www.vikas.model.Vw_Prod_Supp_Xps;
+import www.vikas.service.CustomerOrderServiceInt;
 import www.vikas.service.CustomerServiceInt;
 import www.vikas.service.UserDetailsServiceInt;
 
@@ -30,6 +32,9 @@ public class CustomerController {
 	@Autowired
 	private UserDetailsServiceInt userDetailsService;
 
+	@Autowired
+	private CustomerOrderServiceInt customerOrderService;
+	
 	@RequestMapping("/reqLogout")
 	public String logout(HttpSession hsession, Model m) {
 		hsession.invalidate();
@@ -39,44 +44,44 @@ public class CustomerController {
 	}
 
 	@RequestMapping("/reqLoginPage")
-	public String loginPage(UserDetails ud, Model m) {
+	public String loginPage(UserDetails userDetails, Model m) {
 		m.addAttribute("userObject", new UserDetails());
 		return "loginpage";
 	}
 
 	@RequestMapping("/reqSignupPage")
 	public String displaySignupForm(Model m) {
-		UserDetails ud = new UserDetails();
-		ShippingAddress sad = new ShippingAddress();
-		Customer cust = new Customer();
-		cust.setUserDetails(ud);
-		cust.setShippingAddress(sad);
-		m.addAttribute("customer", cust);
+		UserDetails userDetails = new UserDetails();
+		ShippingAddress shippingAddress = new ShippingAddress();
+		Customer customer = new Customer();
+		customer.setUserDetails(userDetails);
+		customer.setShippingAddress(shippingAddress);
+		m.addAttribute("customer", customer);
 		return "signuppage";
 	}
 
 	@RequestMapping("/reqSendSignupData")
-	public String sendSignUpData(@ModelAttribute("customer") Customer cust, Model m) {
+	public String sendSignUpData(@ModelAttribute("customer") Customer customer, Model m) {
 
-		cust.setEnabled(true);// we are hardcoding as a pogrammer
-		cust.getUserDetails().setRole("ROLE_USER");
-		cust.getUserDetails().setEnabled(true);
+		customer.setEnabled(true);// we are hardcoding as a pogrammer
+		customer.getUserDetails().setRole("ROLE_USER");
+		customer.getUserDetails().setEnabled(true);
 
-		BillingAddress bad = new BillingAddress();
-		bad.setHouseno(cust.getShippingAddress().getHouseno());
-		bad.setStreet(cust.getShippingAddress().getStreet());
-		bad.setArea(cust.getShippingAddress().getArea());
-		bad.setCity(cust.getShippingAddress().getCity());
-		bad.setState(cust.getShippingAddress().getState());
-		bad.setCountry(cust.getShippingAddress().getCountry());
-		bad.setPincode(cust.getShippingAddress().getPincode());
+		BillingAddress billingAddress = new BillingAddress();
+		billingAddress.setHouseno(customer.getShippingAddress().getHouseno());
+		billingAddress.setStreet(customer.getShippingAddress().getStreet());
+		billingAddress.setArea(customer.getShippingAddress().getArea());
+		billingAddress.setCity(customer.getShippingAddress().getCity());
+		billingAddress.setState(customer.getShippingAddress().getState());
+		billingAddress.setCountry(customer.getShippingAddress().getCountry());
+		billingAddress.setPincode(customer.getShippingAddress().getPincode());
 
-		Cart crt = new Cart();
+		Cart cart = new Cart();
 
-		cust.setBillingAddress(bad);
-		cust.setCart(crt);
+		customer.setBillingAddress(billingAddress);
+		customer.setCart(cart);
 
-		String userid = customerService.addCustomer(cust);
+		String userid = customerService.addCustomer(customer);
 		String message = "Signup is successfull.\nNew User id : " + userid;
 		m.addAttribute("signupmsg", message);
 		m.addAttribute("userObject", new UserDetails());
@@ -84,9 +89,9 @@ public class CustomerController {
 	}
 
 	@RequestMapping("/reqLoginCheck")
-	public String loginCheckk(HttpSession hsession, @ModelAttribute("userObject") UserDetails ud, Model m) {
+	public String loginCheckk(HttpSession hsession, @ModelAttribute("userObject") UserDetails userDetails, Model m) {
 
-		UserDetails temp = userDetailsService.loginCheck(ud);
+		UserDetails temp = userDetailsService.loginCheck(userDetails);
 		System.out.println(temp);
 		if (temp == null) {// if authentication failed
 			String message = "Login failed..,\nTry again...";
@@ -110,10 +115,24 @@ public class CustomerController {
 
 	}
 
+	@RequestMapping("/reqDisplayProductsUser")
+	public String displayProductsUser(HttpSession hsession,Model m){	
+		Customer oldcust = (Customer)hsession.getAttribute("customerprofile");
+		Customer newcust = customerService.getCustomerByID(oldcust.getCustomerid());
+		hsession.setAttribute("customerprofile", newcust);
+		List <Vw_Prod_Supp_Xps> productsuser = customerService.getProductsForUser();
+		m.addAttribute("productsuser", productsuser);
+		return "userHomePage";
+	}
+	
 	@RequestMapping("/reqProductAllSuppliers")
 	public String getProductsAllSuppliers(@RequestParam("pid") String pid, Model m) {
 		List<Vw_Prod_Supp_Xps> allSupProd = customerService.getAllSuppProd(pid);
+
+		List<Vw_Cust_Rating> revdata = customerOrderService.getCommentsForProduct(allSupProd.get(0).getProductid());
+		
 		m.addAttribute("allSupProd", allSupProd);
+		m.addAttribute("revdata", revdata);
 		return "productsAllSuppliers";
 	}
 }
