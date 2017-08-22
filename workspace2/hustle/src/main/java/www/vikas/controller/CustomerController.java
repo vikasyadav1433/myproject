@@ -1,5 +1,6 @@
 package www.vikas.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -34,7 +35,7 @@ public class CustomerController {
 
 	@Autowired
 	private CustomerOrderServiceInt customerOrderService;
-	
+
 	@RequestMapping("/reqLogout")
 	public String logout(HttpSession hsession, Model m) {
 		hsession.invalidate();
@@ -116,23 +117,62 @@ public class CustomerController {
 	}
 
 	@RequestMapping("/reqDisplayProductsUser")
-	public String displayProductsUser(HttpSession hsession,Model m){	
-		Customer oldcust = (Customer)hsession.getAttribute("customerprofile");
+	public String displayProductsUser(HttpSession hsession, Model m) {
+		Customer oldcust = (Customer) hsession.getAttribute("customerprofile");
 		Customer newcust = customerService.getCustomerByID(oldcust.getCustomerid());
 		hsession.setAttribute("customerprofile", newcust);
-		List <Vw_Prod_Supp_Xps> productsuser = customerService.getProductsForUser();
+		List<Vw_Prod_Supp_Xps> productsuser = customerService.getProductsForUser();
 		m.addAttribute("productsuser", productsuser);
 		return "userHomePage";
 	}
-	
+
 	@RequestMapping("/reqProductAllSuppliers")
 	public String getProductsAllSuppliers(@RequestParam("pid") String pid, Model m) {
 		List<Vw_Prod_Supp_Xps> allSupProd = customerService.getAllSuppProd(pid);
 
 		List<Vw_Cust_Rating> revdata = customerOrderService.getCommentsForProduct(allSupProd.get(0).getProductid());
-		
+
 		m.addAttribute("allSupProd", allSupProd);
 		m.addAttribute("revdata", revdata);
 		return "productsAllSuppliers";
 	}
+
+	@RequestMapping("/reqLoginPage1")
+	public String loginPage1(@RequestParam(value = "error", required = false) String error, Model m) {
+		if (error != null) {
+			String message = "Login failed..,\nTry again...";
+			m.addAttribute("errormsg", message);
+		}
+		return "springSecuityLoginPage";
+	}
+
+	@RequestMapping("/springLoginCheck") // comes here after spring security
+											// authenticates user
+	public String loginCheck(Principal principal, HttpSession hsession, Model m) {
+		System.out.print("\nCustomerController - springLoginCheck()");
+		System.out.println("\nName : " + principal.getName());
+		Customer customer = customerService.getCustomerByUserId(principal.getName());
+		UserDetails userDetials = customer.getUserDetails();
+		System.out.println("\nRole : " + userDetials.getRole());
+
+		if (userDetials.getRole().equals("ROLE_USER")) {
+			hsession.setAttribute("customerprofile", customer);
+			return "redirect:/reqDisplayProductsUser";
+		}
+
+		if (userDetials.getRole().equals("ROLE_ADMIN")) {
+			hsession.setAttribute("adminprofile", customer);
+			return "adminHomePage";
+		}
+		return "";
+	}
+
+	@RequestMapping("/reqLogoutSpring") // spring security logout
+	public String logoutSpring(HttpSession hsession, Model m) {
+		hsession.invalidate();
+		String logoutMessage = "Logged out succcessfully.\nThanks for visiting our site...";
+		m.addAttribute("message", logoutMessage);
+		return "newhome";
+	}
+
 }
